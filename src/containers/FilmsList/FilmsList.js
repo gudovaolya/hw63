@@ -1,13 +1,17 @@
 import React, {Component, Fragment} from 'react';
+import axios from "../../axios-hw63";
+
 import './FilmsList.css';
 import Film from "../../components/Film/Film";
-import axios from "../../axios-hw63";
+import Spinner from '../../components/Spinner/Spinner';
+
 
 class FilmsList extends Component {
 
     state = {
         films: [],
-        filmNameValue: ''
+        filmNameValue: '',
+        loading: false
     };
 
     changeFilmName = (event, id) => {
@@ -62,6 +66,7 @@ class FilmsList extends Component {
     };
 
     getFilms = () => {
+        this.setState({loading: true});
         axios.get('films.json').then(response => {
             return response.data
         }).then(filmsData => {
@@ -70,7 +75,7 @@ class FilmsList extends Component {
                 filmsData[key].id = key;
                 films.push(filmsData[key]);
             }
-            this.setState({films});
+            this.setState({films, loading:false});
         })
     };
 
@@ -78,15 +83,11 @@ class FilmsList extends Component {
         this.getFilms();
     };
 
-
-
-
-
     renderFilmsBlock = () => {
-        if (this.state.films.length > 0) {
+        if (!this.state.loading && this.state.films.length > 0) {
             return (
                 <Fragment>
-                    <h4>To watch list:</h4>
+                    <h4>List of films to watch:</h4>
                     {this.state.films.map(film => (
                         <Film
                             key={film.id}
@@ -99,6 +100,8 @@ class FilmsList extends Component {
                     ))}
                 </Fragment>
             )
+        } else if (this.state.loading) {
+            return <Spinner />
         } else {
             return <p>There are no movies in the list!</p>
         }

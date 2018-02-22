@@ -4,13 +4,15 @@ import axios from '../../axios-hw63';
 import './ToDoList.css';
 import Task from "../../components/Task/Task";
 import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
+import Spinner from '../../components/Spinner/Spinner';
 
 
 class ToDoList extends Component {
 
     state = {
         tasks: [],
-        currentTask: ''
+        currentTask: '',
+        loading: false
     };
 
     changeCurrentTask = (event) => {
@@ -19,6 +21,7 @@ class ToDoList extends Component {
     };
 
     getTasks = () => {
+        this.setState({loading: true});
         axios.get('tasks.json').then(response => {
             return response.data;
         }).then(tasksData => {
@@ -27,7 +30,7 @@ class ToDoList extends Component {
                 tasksData[key].id = key;
                 tasks.push(tasksData[key]);
             }
-            this.setState({tasks});
+            this.setState({tasks, loading: false});
         })
     };
 
@@ -85,6 +88,10 @@ class ToDoList extends Component {
                 }
             </div>
         );
+
+        if (this.state.loading) {
+            tasks = <Spinner />
+        }
 
         return (
             <div className="container content">

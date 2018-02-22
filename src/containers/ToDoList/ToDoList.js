@@ -87,16 +87,15 @@ class ToDoList extends Component {
         );
 
         return (
-            <div className="todo-list">
-                <div className="container">
-                    <AddTaskForm
-                        value = {this.state.currentTask}
-                        change={this.changeCurrentTask}
-                        click = {this.addTaskHandler}>
-                    </AddTaskForm>
-                    {tasks}
-                </div>
+            <div className="container content">
+                <AddTaskForm
+                    value = {this.state.currentTask}
+                    change={this.changeCurrentTask}
+                    click = {this.addTaskHandler}>
+                </AddTaskForm>
+                {tasks}
             </div>
+
         );
     }
 }

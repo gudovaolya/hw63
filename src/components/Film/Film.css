@@ -1,0 +1,9 @@
+.film-item{
+    padding: 0 0 10px;
+    position: relative;
+}
+.film-name{
+    padding: 5px;
+    width: 500px;
+    margin-right: 20px;
+}
